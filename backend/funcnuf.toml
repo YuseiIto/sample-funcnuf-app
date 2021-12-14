@@ -1,0 +1,43 @@
+# Project general configuration
+organization = "my-org"
+name = "todo-backend"
+
+# Stage definition
+[[stage]]
+name = "prod"
+
+[[stage]]
+name = "dev"
+
+# Function definition
+[[function]]
+runtime = "node14"
+name = "sample-nodejs-f"
+on_stage = ["dev"]
+handler = "index.js"
+memory_limit_in_MB = 1024
+
+[[function.env]]
+FRONT_HOST = "yuseiito.com"
+API_HOST = "api.yuseiito.com"
+
+
+[[gateway]]
+name = "my-gw"
+on_stage = ["dev"]
+
+[[gateway.endpoints]]
+path = "/"
+function = "sample-nodejs-f"
+method = "GET"
+
+
+[[gateway.endpoints]]
+path = "/user"
+method = "GET"
+function = "f2"
+
+[[gateway.endpoints]]
+path = "/:userId/baz"
+method = "GET"
+function = "f3"
